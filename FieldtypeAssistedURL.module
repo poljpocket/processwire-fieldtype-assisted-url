@@ -54,4 +54,22 @@ class FieldtypeAssistedURL extends FieldtypeURL
 
         return $inputField;
     }
+
+    /**
+     * get values converted when fetched from db
+     *
+     */
+    public function ___wakeupValue(Page $page, Field $field, $value) {
+        return is_numeric($value) ? $this->wire('pages')->get($value)->path : $value;
+    }
+
+    /**
+     * return converted from object to array for storing in database
+     *
+     */
+    public function ___sleepValue(Page $page, Field $field, $value) {
+        $return = strpos($value, '//') === false ? $this->wire('pages')->get($value)->id : $value;
+        return $return;
+    }
+
 }
