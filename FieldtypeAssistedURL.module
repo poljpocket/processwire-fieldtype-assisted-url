@@ -60,7 +60,14 @@ class FieldtypeAssistedURL extends FieldtypeURL
      *
      */
     public function ___wakeupValue(Page $page, Field $field, $value) {
-        return is_numeric($value) ? $this->wire('pages')->get($value)->path : $value;
+        $urlParts = explode("?", $value);
+        if(is_numeric($urlParts[0])) {
+            $return = $this->wire('pages')->get($urlParts[0])->path . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
+        }
+        else {
+            $return = $value;
+        }
+        return $return;
     }
 
     /**
@@ -68,7 +75,19 @@ class FieldtypeAssistedURL extends FieldtypeURL
      *
      */
     public function ___sleepValue(Page $page, Field $field, $value) {
-        $return = strpos($value, '//') === false ? $this->wire('pages')->get($value)->id : $value;
+        if(strpos($value, '//') === false) {
+            $urlParts = explode("?", $value);
+            $p = $this->wire('pages')->get($urlParts[0]);
+            if($p->id) {
+                $return = $p->id . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
+            }
+            else {
+                $return = $value;
+            }
+        }
+        else {
+            $return = $value;
+        }
         return $return;
     }
 
