@@ -75,6 +75,12 @@ class FieldtypeAssistedURL extends FieldtypeURL
      *
      */
     public function ___sleepValue(Page $page, Field $field, $value) {
+        foreach($this->wire('config')->httpHosts as $host) {
+            if (strpos($value, $host) !== false) {
+                $value = str_replace($host, '', $value);
+                $value = preg_replace('#^https?://#', '', $value);
+            }
+        }
         if(strpos($value, '//') === false) {
             $urlParts = explode("?", $value);
             $p = $this->wire('pages')->get($urlParts[0]);
