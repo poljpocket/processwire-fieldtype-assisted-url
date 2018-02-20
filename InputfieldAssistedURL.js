@@ -63,6 +63,7 @@ $(document).ready(function() {
 
             // remove tab navigation
             $i.find('#breadcrumbs').remove();
+            $i.find('#PageEditLinkTabs').hide();
 
             // hide generated link code
             $i.find('#link_markup').hide();
