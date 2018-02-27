@@ -59,7 +59,12 @@ class InputfieldAssistedURL extends Inputfield
 
         $btn = $this->modules->get('InputfieldButton');
         $btn->attr('id', $this->attr('name') . "_assistedurl_open");
-        $btn->attr('data-page-id', $this->page->id);
+        $page = $this->page;
+        $n = 0;
+        while(wireInstanceOf($page, 'RepeaterPage') && ++$n < 10) {
+            $page = $page->getForPage();
+        }
+        $btn->attr('data-page-id', $page->id);
         $btn->class .= " InputfieldAssistedURLOpen";
         $btn->icon = 'link';
         $btn->value = '';
