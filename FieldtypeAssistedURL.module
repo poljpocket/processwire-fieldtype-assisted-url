@@ -83,7 +83,7 @@ class FieldtypeAssistedURL extends FieldtypeURL
         }
         if(strpos($value, '//') === false) {
             $urlParts = explode("?", $value);
-            $p = $this->wire('pages')->get($urlParts[0]);
+            $p = $this->wire('pages')->get(trim($urlParts[0],'.'));
             if($p->id) {
                 $return = $p->id . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
             }
