@@ -62,7 +62,7 @@ class FieldtypeAssistedURL extends FieldtypeURL
     public function ___wakeupValue(Page $page, Field $field, $value) {
         $urlParts = explode("?", $value);
         if(is_numeric($urlParts[0])) {
-            $return = $this->wire('pages')->get($urlParts[0])->path . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
+            $return = $this->wire('pages')->get($urlParts[0])->url . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
         }
         else {
             $return = $value;
@@ -83,7 +83,8 @@ class FieldtypeAssistedURL extends FieldtypeURL
         }
         if(strpos($value, '//') === false) {
             $urlParts = explode("?", $value);
-            $p = $this->wire('pages')->get(trim($urlParts[0],'.'));
+            $urlPage = "/" . str_replace($this->wire('config')->urls->root, "", $urlParts[0]);
+            $p = $this->wire('pages')->get(trim($urlPage, '.'));
             if($p->id) {
                 $return = $p->id . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
             }
