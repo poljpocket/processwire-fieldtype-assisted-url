@@ -2,6 +2,8 @@
 /**
  * Class FieldtypeAssistedURL
  *
+ * Modified by Adrian Jones to support storing URL as page ID
+ *
  * @author Marco Stoll <m.stoll@core4.de>
  * @link http://core4.de CORE4 GmbH & Co. KG
  * @copyright Copyright (c) 2015, CORE4 GmbH & Co. KG
@@ -14,19 +16,18 @@
 /**
  * Class FieldtypeAssistedURL
  */
-class FieldtypeAssistedURL extends FieldtypeURL
-{
+class FieldtypeAssistedURL extends FieldtypeURL {
     /**
      * Get information about this module
      *
      * @return array
      */
-    public static function getModuleInfo()
-    {
+    public static function getModuleInfo() {
         return [
             'title' => 'AssistedURL Field',
-            'version' => 100,
+            'version' => '2.0.0',
             'summary' => 'Field that stores an URL providing controls for selecting internal pages and files.',
+            'author' => 'Marco Stoll, Adrian Jones',
             'installs' => 'InputfieldAssistedURL',
         ];
     }
@@ -34,8 +35,7 @@ class FieldtypeAssistedURL extends FieldtypeURL
     /**
      * Per Module interface, this template method is called when all system classes are loaded and ready for API usage
      */
-    public function init()
-    {
+    public function init() {
         parent::init();
     }
 
@@ -46,8 +46,7 @@ class FieldtypeAssistedURL extends FieldtypeURL
      * @param Field $field
      * @return Inputfield
      */
-    public function getInputfield(Page $page, Field $field)
-    {
+    public function getInputfield(Page $page, Field $field) {
         /** @var InputfieldAssistedURL $inputField */
         $inputField = $this->modules->get("InputfieldAssistedURL");
         $inputField->setPage($page);
@@ -83,7 +82,14 @@ class FieldtypeAssistedURL extends FieldtypeURL
         }
         if(strpos($value, '//') === false) {
             $urlParts = explode("?", $value);
-            $urlPage = "/" . str_replace($this->wire('config')->urls->root, "", $urlParts[0]);
+
+            if($this->wire('config')->urls->root !== '/') {
+                $urlPage = "/" . str_replace($this->wire('config')->urls->root, "", $urlParts[0]);
+            }
+            else {
+                $urlPage = $urlParts[0];
+            }
+
             $p = $this->wire('pages')->get(trim($urlPage, '.'));
             if($p->id) {
                 $return = $p->id . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');

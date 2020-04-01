@@ -14,8 +14,7 @@
 /**
  * Class InputfieldAssistedURL
  */
-class InputfieldAssistedURL extends Inputfield
-{
+class InputfieldAssistedURL extends Inputfield {
 
     /**
      * @var Page
@@ -27,13 +26,13 @@ class InputfieldAssistedURL extends Inputfield
      *
      * @return array
      */
-    public static function getModuleInfo()
-    {
+    public static function getModuleInfo() {
         return [
             'title' => 'AssistedURL Input',
-            'version' => 101,
+            'version' => '2.0.0',
             'summary' => 'Input field for assisted urls.',
             'requires' => 'FieldtypeAssistedURL',
+            'author' => 'Marco Stoll, Adrian Jones'
         ];
     }
 
@@ -42,16 +41,14 @@ class InputfieldAssistedURL extends Inputfield
      *
      * @param Page $page
      */
-    public function setPage(Page $page)
-    {
+    public function setPage(Page $page) {
         $this->page = $page;
     }
 
     /**
      * Render the entire input area for Events
      */
-    public function ___render()
-    {
+    public function ___render() {
         $field = new InputfieldURL();
         $field->set('name', $this->attr('name'));
         $field->set('value', $this->attr('value'));
