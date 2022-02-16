@@ -29,7 +29,7 @@ class InputfieldAssistedURL extends Inputfield {
     public static function getModuleInfo() {
         return [
             'title' => 'AssistedURL Input',
-            'version' => '2.0.0',
+            'version' => '2.0.1',
             'summary' => 'Input field for assisted urls.',
             'requires' => 'FieldtypeAssistedURL',
             'author' => 'Marco Stoll, Adrian Jones'
@@ -49,6 +49,7 @@ class InputfieldAssistedURL extends Inputfield {
      * Render the entire input area for Events
      */
     public function ___render() {
+
         $field = new InputfieldURL();
         $field->set('name', $this->attr('name'));
         $field->set('value', $this->attr('value'));

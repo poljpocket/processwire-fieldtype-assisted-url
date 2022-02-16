@@ -1,6 +1,21 @@
 // based on /ProcessWire/wire/modules/Inputfield/InputfieldCKEditor/plugins/pwlink/plugin.js
 $(document).ready(function() {
 
+    if(!ProcessWire.config.InputfieldCKEditor) {
+        ProcessWire.config.InputfieldCKEditor = {
+            "language": "en",
+            "timestamp": "2015030801.169",
+            "editors": [],
+            "pwlink": {
+                "label": "Insert Link",
+                "edit": "Edit Link",
+                "cancel": "Cancel",
+                "classOptions": ""
+            }
+        }
+    }
+
+
 	$(document).on("click", ".InputfieldAssistedURLOpen", function(e) {
         loadIframeLinkPicker(e.currentTarget);
         $(this).removeClass('ui-state-active');
