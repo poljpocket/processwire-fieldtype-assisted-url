@@ -1,9 +1,9 @@
 .InputfieldAssistedURLOpen {
-  float:left;
+    float: left;
+    margin-right: 0 !important;
+    border-radius: 4px 0 0 4px !important;
 }
 
 .InputfieldAssistedUrlText {
-  overflow: hidden;
-  padding-left: 0.8em;
-  padding-top: 0.4em;
+    overflow: hidden;
 }
