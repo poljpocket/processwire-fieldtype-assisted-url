@@ -25,7 +25,7 @@ class FieldtypeAssistedURL extends FieldtypeURL {
     public static function getModuleInfo() {
         return [
             'title' => 'AssistedURL Field',
-            'version' => '2.0.0',
+            'version' => '2.0.1',
             'summary' => 'Field that stores an URL providing controls for selecting internal pages and files.',
             'author' => 'Marco Stoll, Adrian Jones',
             'installs' => 'InputfieldAssistedURL',
@@ -75,8 +75,8 @@ class FieldtypeAssistedURL extends FieldtypeURL {
      */
     public function ___sleepValue(Page $page, Field $field, $value) {
         foreach($this->wire('config')->httpHosts as $host) {
-            $temp = preg_replace('#^https?://#', '', $value);
-            if (strpos($temp, $host) === 0) {
+            $withoutHttp = preg_replace('#^https?://#', '', $value);
+            if (strpos($withoutHttp, $host) === 0) {
                 $value = str_replace($host, '', $value);
                 $value = preg_replace('#^https?://#', '', $value);
             }
