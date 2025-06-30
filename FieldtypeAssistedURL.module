@@ -16,7 +16,7 @@
 /**
  * Class FieldtypeAssistedURL
  */
-class FieldtypeAssistedURL extends FieldtypeURL {
+class FieldtypeAssistedURL extends FieldtypeText {
     /**
      * Get information about this module
      *
@@ -52,58 +52,6 @@ class FieldtypeAssistedURL extends FieldtypeURL {
         $inputField->setPage($page);
 
         return $inputField;
-    }
-
-    /**
-     * get values converted when fetched from db
-     *
-     */
-    public function ___wakeupValue(Page $page, Field $field, $value) {
-        $urlParts = explode("?", $value);
-        if(is_numeric($urlParts[0])) {
-            $return = $this->wire('pages')->get($urlParts[0])->url . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
-        }
-        else {
-            $return = $value;
-        }
-        return $return;
-    }
-
-    /**
-     * return converted from object to array for storing in database
-     *
-     */
-    public function ___sleepValue(Page $page, Field $field, $value) {
-        if(!$value) return '';
-        foreach($this->wire('config')->httpHosts as $host) {
-            $withoutHttp = preg_replace('#^https?://#', '', $value);
-            if (strpos($withoutHttp, $host) === 0) {
-                $value = str_replace($host, '', $value);
-                $value = preg_replace('#^https?://#', '', $value);
-            }
-        }
-        if(strpos($value, '//') === false && strpos($value, 'mailto:') === false) {
-            $urlParts = explode("?", $value);
-
-            if($this->wire('config')->urls->root !== '/') {
-                $urlPage = "/" . str_replace($this->wire('config')->urls->root, "", $urlParts[0]);
-            }
-            else {
-                $urlPage = $urlParts[0];
-            }
-
-            $p = $this->wire('pages')->get(trim($urlPage, '.'));
-            if($p->id) {
-                $return = $p->id . (isset($urlParts[1]) ? '?' . $urlParts[1] : '');
-            }
-            else {
-                $return = $value;
-            }
-        }
-        else {
-            $return = $value;
-        }
-        return $return;
     }
 
 }
